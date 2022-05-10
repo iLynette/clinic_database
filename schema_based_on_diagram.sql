@@ -5,6 +5,29 @@ CREATE TABLE patients (
     date_of_birth DATE,
     PRIMARY KEY(id)
 );
+-- create medical_histories table
+CREATE TABLE medical_histories (
+    id INT GENERATED ALWAYS AS IDENTITY,
+    admitted_at TIMESTAMP,
+    patient_id INT REFERENCES patients(id),
+    status VARCHAR(100),
+    PRIMARY KEY(id)  
+);
+
+-- create treatment
+CREATE TABLE treatments (
+    id INT GENERATED ALWAYS AS IDENTITY,
+    type VARCHAR(100),
+    name VARCHAR(100),
+    PRIMARY KEY (id)
+);
+
+-- create join tables
+CREATE TABLE medical_treatments (
+    medical_history_id INT REFERENCES medical_histories(id),
+    treatment_id INT REFERENCES treatments(id) 
+);
+
 
 -- create invoices table
 CREATE TABLE invoices (
@@ -12,7 +35,7 @@ CREATE TABLE invoices (
     total_amount DECIMAL,
     generated_at TIMESTAMP,
     payed_at TIMESTAMP,
-    medical_history_id INT REFERENCES medical_histories(medical_history_id),
+    medical_history_id INT REFERENCES medical_histories(id),
     PRIMARY KEY(id)
 );
 
